@@ -1,0 +1,3 @@
+from apis.databaseModels.document_type_master import DocumentTypeMaster
+from apis.databaseModels.merchant_document import merchant_document
+from apis.databaseModels.merchant_data import merchant_data
