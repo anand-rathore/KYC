@@ -4,7 +4,7 @@ from django.db import models
 class merchant_data(models.Model):
     merchantId = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255, null=True)
-    emilId = models.CharField(max_length=255, null=True)
+    emailId = models.CharField(max_length=255, null=True, db_column='emilId')
     isEmailVerified = models.SmallIntegerField(null=True)
     isContactNumberVerified = models.SmallIntegerField(null=True)
     contactNumber = models.CharField(max_length=45,null=True)
@@ -25,9 +25,12 @@ class merchant_data(models.Model):
     clientCode = models.CharField(max_length=45, null=True)
     successUrl = models.CharField(max_length=255, null=True)
     failureUrl = models.CharField(max_length=255, null=True)
+    
+    ##added loginMasterId##
+    loginMasterId = models.CharField(max_length=255, null=True)
     # loginMasterId = models.ForeignKey('api.login_master', on_delete=models.CASCADE, null=True, db_column='loginMasterId')
     created_date = models.DateTimeField(null=True)
-    modified_date = models.DateTimeField(null=True)
+    modifiedDate = models.DateTimeField(null=True, db_column='modified_date')
     modified_by = models.IntegerField(null=True)
     status = models.CharField(max_length=50, null=True, default = 'Pending')
     reason = models.CharField(max_length=255, null=True)
