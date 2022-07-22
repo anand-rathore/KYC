@@ -1,4 +1,8 @@
+import os
+
+from django.http import Http404, FileResponse
 from rest_framework import viewsets
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from apis.Serializers.merchant_document_serializer import MerchantDocumentSerializer
@@ -29,3 +33,16 @@ class MerchantDocumentAPI(viewsets.ViewSet):
         else:
             serializer = MerchantDocumentSerializer(queryset, many=True)
             return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_merchant_doc(request):
+    document_id = request.query_params.get('document_id')
+    file_path = merchant_document_service.get_document_path_by_id(document_id)
+    if file_path is None:
+        raise Http404
+    complete_file_path = os.getcwd() + "/" + file_path.filePath
+    if os.path.exists(complete_file_path):
+        response = FileResponse(open(complete_file_path, 'rb'))
+        return response
+    raise Http404

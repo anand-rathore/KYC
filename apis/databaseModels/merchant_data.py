@@ -1,5 +1,5 @@
-
 from django.db import models
+
 
 class merchant_data(models.Model):
     merchantId = models.AutoField(primary_key=True)
@@ -7,10 +7,10 @@ class merchant_data(models.Model):
     emailId = models.CharField(max_length=255, null=True, db_column='emilId')
     isEmailVerified = models.SmallIntegerField(null=True)
     isContactNumberVerified = models.SmallIntegerField(null=True)
-    contactNumber = models.CharField(max_length=45,null=True)
-    contactDesignation = models.CharField(max_length=100,null=True)
-    aadharNumber = models.CharField(max_length=45,null=True)
-    panCard = models.CharField(max_length=45,null=True)
+    contactNumber = models.CharField(max_length=45, null=True)
+    contactDesignation = models.CharField(max_length=100, null=True)
+    aadharNumber = models.CharField(max_length=45, null=True)
+    panCard = models.CharField(max_length=45, null=True)
     accountNumber = models.CharField(max_length=45, null=True)
     bankName = models.CharField(max_length=255, null=True)
     accountHolderName = models.CharField(max_length=255, null=True)
@@ -32,7 +32,7 @@ class merchant_data(models.Model):
     created_date = models.DateTimeField(null=True)
     modifiedDate = models.DateTimeField(null=True, db_column='modified_date')
     modified_by = models.IntegerField(null=True)
-    status = models.CharField(max_length=50, null=True, default = 'Pending')
+    status = models.CharField(max_length=50, null=True, default='Pending')
     reason = models.CharField(max_length=255, null=True)
     businessType = models.CharField(max_length=45, null=True)
     yourRole = models.CharField(max_length=100, null=True)
@@ -40,12 +40,12 @@ class merchant_data(models.Model):
     registeredBusinessAdress = models.CharField(max_length=200, null=True)
     stateId = models.CharField(max_length=200, null=True)
     pinCode = models.CharField(max_length=100, null=True)
-    
+
     registerdWithGST = models.BooleanField(null=True)
     gstNumber = models.CharField(max_length=100, null=True)
     monthlyRevenue = models.CharField(max_length=100, null=True)
     partnerBankId = models.CharField(max_length=100, null=True)
-    
+
     mouAgreement = models.CharField(max_length=100, null=True)
     constitutionOfMerchant = models.CharField(max_length=200, null=True)
     addressProof = models.CharField(max_length=100, null=True)
@@ -75,8 +75,6 @@ class merchant_data(models.Model):
     signatoryPAN = models.CharField(max_length=250, null=True)
     cityId = models.CharField(max_length=100, null=True)
     operationalAddress = models.CharField(max_length=100, null=True)
+
     class Meta:
         db_table = 'merchant_data'
-    
-    
-        

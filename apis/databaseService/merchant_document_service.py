@@ -8,6 +8,9 @@ from apis.configuration.config import Configuration
 from apis.databaseModels.merchant_document import merchant_document
 import traceback
 
+from apis.databaseService import merchant_data_service
+from apis.enums.merchant_document_status import MerchantDocumentStatus
+
 
 @transaction.atomic
 def save_merchant_document(merchant_document_data):
@@ -18,28 +21,31 @@ def save_merchant_document(merchant_document_data):
         current_path = os.getcwd()
         doc_folder = Configuration.get_Property('MERCHANT_DOC_FOLDER')
         original_file_name = merchant_document_data['files'].name
-        merchant = merchant_document_data['merchant']
+        client_code = merchant_document_data['client_code']
+        login_id = merchant_document_data['login_id']
+        merchant = merchant_data_service.get_merchant_data_by_client_code_and_login_id(client_code, login_id)
         merchant_doc = merchant_document()
         merchant_doc.merchant = merchant
-        merchant_doc.modifiedBy = merchant_document_data['modifiedBy']
+        merchant_doc.modifiedBy = login_id
         merchant_doc.name = original_file_name
         file_path = doc_folder + "/MERCHANT_" + str(merchant.merchantId)
         file_name = generate_kyc_doc_name(merchant_document_data['files'])
         merchant_doc.filePath = file_path + "/" + file_name
         merchant_doc.type = merchant_document_data['type']
         merchant_doc.isLatest = True
-        merchant_doc.createdBy = merchant_document_data['modifiedBy']
+        merchant_doc.createdBy = login_id
+        merchant_doc.status = MerchantDocumentStatus.PENDING.value
         old_document = get_document_by_merchant_id_and_type_id(merchant.merchantId, merchant_document_data['type'].id)
         if old_document.exists():
             old_document.update(isLatest=False)
         merchant_doc.save()
         complete_file_path = current_path + "/" + merchant_doc.filePath
         saved_file_name = save_file(merchant_document_data['files'], complete_file_path)
-        return {"Message": "Merchant document saved successfully", "status": True}
+        return {"message": "Merchant document saved successfully", "status": True}
     except Exception as e:
         traceback.print_exc()
         transaction.set_rollback(True)
-        return {"Message": "Error while saving merchant document", "status": False}
+        return {"message": "Error while saving merchant document", "status": False}
 
 
 def validate_kyc_doc(file):
@@ -68,3 +74,12 @@ def generate_kyc_doc_name(file):
 def get_document_by_merchant_id_and_type_id(merchant_id, type_id):
     merchant_doc = merchant_document.objects.filter(merchant=merchant_id, type=type_id)
     return merchant_doc
+
+
+def get_document_path_by_id(document_id):
+    try:
+        file_path = merchant_document.objects.only('filePath').get(documentId=document_id)
+        return file_path
+    except Exception as e:
+        traceback.print_exc()
+        return None

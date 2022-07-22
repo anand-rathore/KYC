@@ -15,6 +15,8 @@ class merchant_document(models.Model):
     createdBy = models.IntegerField(null=True, db_column='created_By')
     modifiedDate = models.DateTimeField(null=False, auto_now=True, db_column='modified_Date')
     modifiedBy = models.IntegerField(null=True, db_column='modified_by')
+    status = models.CharField(max_length=50, null=True)
+    comment = models.CharField(max_length=255, null=True)
 
     class Meta:
         db_table = 'merchant_document'
