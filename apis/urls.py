@@ -8,6 +8,7 @@ from apis.api.document_type_master_view import DocumentTypeMasterAPI
 from apis.api.merchant_document_view import MerchantDocumentAPI, get_merchant_doc
 from apis.api.kyc_view import save_general_info
 from apis.api.otp_view import OtpView, validate_otp
+from apis.api.kyc_view import save_general_info, save_merchant_info
 
 
 router = routers.DefaultRouter()
@@ -22,5 +23,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('savegeneralinfo/', save_general_info),
     path('verify-otp/', validate_otp),
+    path('savegeneralinfo/', save_general_info),
+    path('savemerchantinfo/', save_merchant_info),
 ]
 
