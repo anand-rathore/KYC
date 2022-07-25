@@ -9,6 +9,8 @@ from apis.api.merchant_document_view import MerchantDocumentAPI, get_merchant_do
 from apis.api.kyc_view import save_general_info
 from apis.api.otp_view import OtpView, validate_otp
 from apis.api.kyc_view import save_general_info, save_merchant_info
+from apis.api.kyc_view import save_general_info_api, save_merchant_info_api
+from apis.databaseService.lookup_service import get_lookup_state
 
 
 router = routers.DefaultRouter()
@@ -25,5 +27,8 @@ urlpatterns = [
     path('verify-otp/', validate_otp),
     path('savegeneralinfo/', save_general_info),
     path('savemerchantinfo/', save_merchant_info),
+    path('savegeneralinfo/', save_general_info_api),
+    path('savemerchantinfo/', save_merchant_info_api),
+    path('getlookupstate/', get_lookup_state),
 ]
 

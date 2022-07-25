@@ -2,36 +2,29 @@ import json
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from ..databaseService.merchant_data_service import saveGeneralInfo, savemerchantinfo
+from ..databaseService.merchant_data_service import save_general_Info, save_merchant_info
 from apis.utils import Validator
 
-@api_view(['POST'])
-def save_general_info(request):
+@api_view(['PUT'])
+def save_general_info_api(request):
     try:
         data = json.loads(request.body.decode("utf-8"))
         name = data.get('name')
-        contactNumber = data.get('contactNumber')
-        emailId = data.get('emailId')
-        contactDesignation = data.get('contactDesignation')
-        loginMasterId = data.get('loginMasterId')
+        contact_number = data.get('contact_number')
+        email_id = data.get('email_id')
+        contact_designation = data.get('contact_designation')
+        login_id = data.get('login_id')
         client_code = data.get('client_code')
-        
-        # get_status = ""
-        # if(data.get('status')):
-        #     get_status =data.get('status')
-        # else:
-        #     get_status = MerchantStatusCode.pending.value
-        
-        
-        request_fields = ['name', 'contactNumber', 'emailId', 'contactDesignation', 'loginMasterId', 'client_code']
+                
+        request_fields = ['name', 'contact_number', 'email_id', 'contact_designation', 'login_id', 'client_code']
        
         validation_response = Validator.validate_request_data(request_fields, data)
         if not validation_response["status"]:
             return Response(validation_response, status=status.HTTP_400_BAD_REQUEST)
         
-        data_savegeneral = saveGeneralInfo(loginMasterId, client_code, name, contactNumber, emailId, contactDesignation)
+        getdata_save_general_info = save_general_Info(login_id, client_code, name, contact_number, email_id, contact_designation)
                 
-        return Response(data_savegeneral, status= status.HTTP_200_OK if data_savegeneral["status"] else status.HTTP_400_BAD_REQUEST)
+        return Response(getdata_save_general_info, status= status.HTTP_200_OK if getdata_save_general_info["status"] else status.HTTP_400_BAD_REQUEST)
             
     except Exception as e:
         import traceback
@@ -41,46 +34,40 @@ def save_general_info(request):
 
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def save_business_info(request):
     pass
 
 
-@api_view(['POST'])
-def save_merchant_info(request):
+@api_view(['PUT'])
+def save_merchant_info_api(request):
     try:
         data = json.loads(request.body.decode("utf-8"))
-        companyName = data.get('companyName')    
-        logoPath = data.get('logoPath')
-        registerdWithGST = data.get('registerdWithGST')
-        gstNumber = data.get('gstNumber')
-        panCard = data.get('panCard')
-        signatoryPAN = data.get('signatoryPAN')
-        nameOnPanCard = data.get('nameOnPanCard')
-        pinCode = data.get('pinCode')
-        cityId = data.get('cityId')   
-        stateId = data.get('stateId')     
-        registeredBusinessAdress = data.get('registeredBusinessAdress')
-        operationalAddress = data.get('operationalAddress')
-        loginMasterId = data.get('loginMasterId')
+        company_name = data.get('company_name')    
+        logo_path = data.get('logo_path')
+        registerd_with_gst = data.get('registerd_with_gst')
+        gst_number = data.get('gst_number')
+        pan_card = data.get('pan_card')
+        signatory_pan = data.get('signatory_pan')
+        name_on_pancard = data.get('name_on_pancard')
+        pin_code = data.get('pin_code')
+        city_id = data.get('city_id')   
+        state_id = data.get('state_id')     
+        registered_business_address = data.get('registered_business_address')
+        operational_address = data.get('operational_address')
+        login_id = data.get('login_id')
         client_code = data.get('client_code')
         
-        # get_status = ""
-        # if(data.get('status')):
-        #     get_status = data.get('status')
-        # else:
-        #     get_status = MerchantStatusCode.pending.value
-        
-        request_fields = ['companyName', 'logoPath', 'registerdWithGST', 'gstNumber', 'panCard', 'signatoryPAN', 'nameOnPanCard', 'pinCode', 'cityId', 'stateId', 'registeredBusinessAdress', 'operationalAddress', 'loginMasterId', 'client_code']
+        request_fields = ['company_name', 'logo_path', 'registerd_with_gst', 'gst_number', 'pan_card', 'signatory_pan', 'name_on_pancard', 'pin_code', 'city_id', 'state_id', 'registered_business_address', 'operational_address', 'login_id', 'client_code']
         
         validation_response = Validator.validate_request_data(request_fields, data)
         if not validation_response["status"]:
             return Response(validation_response, status=status.HTTP_400_BAD_REQUEST)
         
-        getdata_savemerchantinfo = savemerchantinfo(companyName, logoPath, registerdWithGST, gstNumber, panCard, signatoryPAN, nameOnPanCard, pinCode, cityId, stateId, registeredBusinessAdress, operationalAddress, loginMasterId, client_code)
+        getdata_save_merchant_info = save_merchant_info(company_name, logo_path, registerd_with_gst, gst_number, pan_card, signatory_pan, name_on_pancard, pin_code, city_id, state_id, registered_business_address, operational_address, login_id, client_code)
         
-        if getdata_savemerchantinfo:
-            return Response(getdata_savemerchantinfo, status= status.HTTP_200_OK if getdata_savemerchantinfo["status"] else status.HTTP_400_BAD_REQUEST)
+        if getdata_save_merchant_info:
+            return Response(getdata_save_merchant_info, status= status.HTTP_200_OK if getdata_save_merchant_info["status"] else status.HTTP_400_BAD_REQUEST)
     
     except Exception as e:
         import traceback
@@ -90,7 +77,7 @@ def save_merchant_info(request):
 
 
 
-@api_view(['POST'])
+@api_view(['PUT'])
 def save_settlement_info(request):
     pass
 

@@ -2,27 +2,24 @@ import traceback
 from datetime import datetime
 from ..databaseModels.merchant_data import merchant_data
 
-########## Merchant KYC By Admin/Referral 1st Tab ###################
-def saveGeneralInfo(loginMasterId, client_code, name, contactNumber, emailId, contactDesignation):
+
+def save_general_Info(login_id, client_code, name, contact_number, email_id, contact_designation):
    
-    merchant_datafilter = merchant_data.objects.filter(loginMasterId = loginMasterId, merchantId = client_code)
+    get_merchant_data = merchant_data.objects.filter(loginMasterId = login_id, clientCode = client_code)
     
-    if len(merchant_datafilter) > 1:
+    if len(get_merchant_data) > 1:
         return {"status": False, "message": "More than one records found"}
     
-    if merchant_datafilter:
-        merchant_datafilter = merchant_datafilter[0]
-        # merchant_datafilter.businessType = businessType
-        # merchant_datafilter.yourRole = yourRole
-        
-        merchant_datafilter.name = name
-        merchant_datafilter.contactNumber = contactNumber
-        merchant_datafilter.emailId = emailId
-        merchant_datafilter.contactDesignation = contactDesignation
-        merchant_datafilter.modifiedDate = datetime.now()
-        merchant_datafilter.isEmailVerified = False
-        merchant_datafilter.isContactNumberVerified = False
-        merchant_datafilter.save()
+    if get_merchant_data:
+        get_merchant_data = get_merchant_data[0]
+        get_merchant_data.name = name
+        get_merchant_data.contactNumber = contact_number
+        get_merchant_data.emailId = email_id
+        get_merchant_data.contactDesignation = contact_designation
+        get_merchant_data.modifiedDate = datetime.now()
+        get_merchant_data.isEmailVerified = False
+        get_merchant_data.isContactNumberVerified = False
+        get_merchant_data.save()
             
         return {"status": True, "message": "Merchant data updated successfully"}
     else:
@@ -30,33 +27,32 @@ def saveGeneralInfo(loginMasterId, client_code, name, contactNumber, emailId, co
 
 
 
-########## Merchant KYC By Admin/Referral 3rd Tab ###################
 
-def savemerchantinfo(companyName, logoPath, registerdWithGST, gstNumber, panCard, signatoryPAN, nameOnPanCard, pinCode, cityId, stateId, registeredBusinessAdress, operationalAddress, loginMasterId, client_code):
+def save_merchant_info(company_name, logo_path, registerd_with_gst, gst_number, pan_card, signatory_pan, name_on_pancard, pin_code, city_id, state_id, registered_business_address, operational_address, login_id, client_code):
     
-    savemerchant_filter = merchant_data.objects.filter(loginMasterId = loginMasterId, merchantId = client_code)
+    get_merchant_data = merchant_data.objects.filter(loginMasterId = login_id, clientCode = client_code)
     
-    if len(savemerchant_filter) > 1:
+    if len(get_merchant_data) > 1:
         return {"status": False, "message": "More than one records found"}
     
     
-    if savemerchant_filter:
+    if get_merchant_data:
         
-        savemerchant_filter = savemerchant_filter[0] 
-        savemerchant_filter.panCard = panCard
-        savemerchant_filter.nameOnPanCard = nameOnPanCard
-        savemerchant_filter.companyName = companyName
-        savemerchant_filter.registeredBusinessAdress = registeredBusinessAdress 
-        savemerchant_filter.stateId = stateId
-        savemerchant_filter.pinCode = pinCode
-        savemerchant_filter.registerdWithGST = registerdWithGST 
-        savemerchant_filter.gstNumber = gstNumber
-        savemerchant_filter.signatoryPAN = signatoryPAN
-        savemerchant_filter.cityId = cityId
-        savemerchant_filter.operationalAddress = operationalAddress
-        savemerchant_filter.logoPath = logoPath
-        savemerchant_filter.modifiedDate = datetime.now()
-        savemerchant_filter.save()
+        get_merchant_data = get_merchant_data[0] 
+        get_merchant_data.panCard = pan_card
+        get_merchant_data.nameOnPanCard = name_on_pancard
+        get_merchant_data.companyName = company_name
+        get_merchant_data.registeredBusinessAdress = registered_business_address 
+        get_merchant_data.stateId = state_id
+        get_merchant_data.pinCode = pin_code
+        get_merchant_data.registerdWithGST = registerd_with_gst 
+        get_merchant_data.gstNumber = gst_number
+        get_merchant_data.signatoryPAN = signatory_pan
+        get_merchant_data.cityId = city_id
+        get_merchant_data.operationalAddress = operational_address
+        get_merchant_data.logoPath = logo_path
+        get_merchant_data.modifiedDate = datetime.now()
+        get_merchant_data.save()
         
         return {"status": True, "message": "Merchant data updated successfully"} 
     else:
