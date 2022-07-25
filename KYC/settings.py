@@ -93,7 +93,7 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.mysql',
     #     'NAME': 'cobnew',
     #     'USER': 'new_cob',
-    #     'PASSWORD': 'kQo3O0La9RrDBHKl   ',
+    #     'PASSWORD': 'MuxqoFZs9TOteqBT',
     #     'HOST': 'preprod-db-master-instance-1.cpontecd0mh6.ap-south-1.rds.amazonaws.com',
     #     'PORT': '3306',
     # }
@@ -124,11 +124,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_L10N = False
+
+USE_TZ = False
+
 
 
 # Static files (CSS, JavaScript, Images)
