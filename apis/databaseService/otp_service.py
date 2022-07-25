@@ -18,7 +18,7 @@ def save_otp(otp):
         send_otp_sms(otp.mobile_number, "Your OTP for {} is {}".format(otp.otp_for, otp.otp))
     elif otp.otp_type.lower() == OtpType.EMAIL.value.lower():
         otp.otp_type = OtpType.EMAIL.value
-        send_otp_email(otp.otp, "Sabpaisa OTP", "Your OTP for {} is {}".format(otp.otp_for, otp.otp))
+        send_otp_email(otp.email, "Sabpaisa OTP", "Your OTP for {} is {}".format(otp.otp_for, otp.otp))
     else:
         return {'status': False, 'message': 'Invalid OTP type. Valid types are: Phone, Email'}
     otp.save()
@@ -63,8 +63,8 @@ def send_otp_sms(mobile_number: str, message: str):
     Sms.sms_thread(mobile_number, message)
 
 
-def send_otp_email(otp: str, subject: str, message: str):
-    Email.email_thread(otp, subject, message)
+def send_otp_email(to: str, subject: str, message: str):
+    Email.email_thread(to, subject, message)
 
 
 def validate_otp(otp_data):
