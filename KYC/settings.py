@@ -82,9 +82,9 @@ WSGI_APPLICATION = 'KYC.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cob1',
+        'NAME': 'cob_live',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'darksmog',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     }

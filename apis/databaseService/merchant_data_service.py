@@ -5,6 +5,9 @@ from datetime import datetime
 from ..configuration.config import Configuration
 from ..databaseModels.merchant_data import merchant_data
 from apis.databaseService import merchant_document_service
+from apis.databaseModels.merchant_data import merchant_data
+from datetime import datetime
+from apis.databaseModels.client_account_details import client_account_details
 
 
 def save_general_Info(login_id, client_code, name, contact_number, email_id, contact_designation):
@@ -92,3 +95,66 @@ def save_merchant_logo(logo, login_id, client_code):
     except Exception as e:
         traceback.print_exc()
         return {"status": False, "message": "Error in saving file"}
+
+########################################################################################################################
+
+
+
+def save_business_info(business_type, business_category, business_model, billing_label, company_website, erp_check, platform_id,
+ collection_type_id, collection_frequency_id, expected_transactions, form_build, ticket_size, client_code, login_id):
+
+    get_merchant_data = merchant_data.objects.filter(loginMasterId = login_id, clientCode = client_code)
+
+    if len(get_merchant_data) > 1:
+        return {"status": False, "message": "More than one records found"}
+
+    if get_merchant_data:
+        get_merchant_data = get_merchant_data[0]
+        get_merchant_data.businessType = business_type
+        get_merchant_data.businessCategory = business_category
+        get_merchant_data.businessModel = business_model
+        get_merchant_data.billingLabel = billing_label
+        get_merchant_data.companyWebsite = company_website
+        get_merchant_data.created_date = datetime.now()
+        get_merchant_data.erpCheck = erp_check
+        get_merchant_data.platformId = platform_id
+        get_merchant_data.collectionTypeId = collection_type_id
+        get_merchant_data.collectionFrequencyId = collection_frequency_id
+        get_merchant_data.expectedTransactions = expected_transactions
+        get_merchant_data.formBuild = form_build
+        get_merchant_data.ticketSize = ticket_size
+        get_merchant_data.modifiedDate = datetime.now()
+        get_merchant_data.loginMasterId = login_id
+
+        get_merchant_data.save()
+        return {"status": True, "message": "Merchant data updated successfully"}
+    else:
+        return {"status": False, "message": "Data not found"}
+
+######################################################################################################################
+
+def saveSettlementInfoOther(account_holder_name, account_number, ifsc_code, bankId, account_type, branch, client_code, login_id):
+
+
+    get_merchant_data = merchant_data.objects.filter(loginMasterId = login_id, clientCode = client_code)
+    print(get_merchant_data)
+    get_merchant_data = get_merchant_data[0]
+
+    data = get_merchant_data.merchantId
+
+    get_client_data= client_account_details.objects.filter(merchantId = data)
+
+    if len(get_client_data) > 1:
+        return {"status": False, "message": "More than one records found"}
+
+    if get_client_data:
+            get_client_data = get_client_data[0]
+            get_client_data.account_holder_name = account_holder_name
+            get_client_data.account_number = account_number
+            get_client_data.ifsc_code = ifsc_code
+            get_client_data.bankId = bankId
+            get_client_data.accountType = account_type
+            get_client_data.branch = branch
+            get_client_data.save()
+            return {"status": True, "message": "client data updated successfully"}
+
