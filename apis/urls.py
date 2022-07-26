@@ -14,6 +14,8 @@ from apis.api.platform_api import lookup_platform_type_api
 from apis.api.collection_frequency import collection_frequency_api
 from apis.api.collection_type import collection_type_api
 from apis.api.bank_name import get_all_bank_details_api
+from apis.databaseService.lookup_service import get_lookup_state
+from apis.api.kyc_view import save_business_info_api, save_Settlement_InfoOther, save_general_info_api, save_merchant_info_api
 
 
 router = routers.DefaultRouter()
@@ -22,7 +24,7 @@ router.register(r'upload-merchant-document', MerchantDocumentAPI, basename='uplo
 
 urlpatterns = [
     path('getMerchantData/', GetMerchantData.as_view()),
-    path('GetMerchantDocumentByID/<int:Id>', GetMerchantDocumentByID.as_view()),
+    path('GetMerchantDocumentByID/<int:Id>', GetMerchantDocumentByID.as_viewc()),
     path('get-merchant-document/', get_merchant_doc),
     path('', include(router.urls)),
     path('save-general-info/', save_general_info_api),   

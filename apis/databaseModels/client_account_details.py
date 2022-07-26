@@ -1,7 +1,7 @@
 from django.db import models
 
 class client_account_details(models.Model):
-    clinet_account_id = models.AutoField(primary_key=True)
+    client_account_id = models.AutoField(primary_key=True)
     account_holder_name = models.CharField(max_length=255, null=True)
     account_number = models.CharField(max_length=255, null=True)
     ifsc_code = models.CharField(max_length=255, null=True)
