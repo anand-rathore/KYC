@@ -1,13 +1,38 @@
 import json
+
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
+# from apis.Serializers.temp_kyc_serializer import KycSerializer
+from ..databaseModels.merchant_data import merchant_data
+# from ..databaseModels.temp_kyc import TempKyc
 from ..databaseService.merchant_data_service import save_general_Info, save_merchant_info, save_merchant_logo
 from apis.utils import Validator
-
-
-# from apis.databaseService.merchant_data_service import saveGeneralInfo
+from apis.databaseService import merchant_document_service
 from ..databaseService.merchant_data_service import save_business_info, saveSettlementInfoOther
+
+
+# class KycView(viewsets.ViewSet):
+#     queryset = TempKyc.objects.all()
+#
+#     def update(self, request, pk=None):
+#         temp_kyc = get_object_or_404(self.queryset, pk=pk)
+#         serializer = KycSerializer(temp_kyc, data=request.data)
+#         if serializer.is_valid():
+#             if 'files' in request.data:
+#                 files = request.data['files']
+#                 merchant_document_data = serializer.validated_data
+#                 merchant_document_data['kyc_id'] = pk
+#                 merchant_document_data['type'] = int(request.data.get('type'))
+#                 doc_response = merchant_document_service.save_merchant_document(merchant_document_data)
+#                 if not doc_response['status']:
+#                     return Response(doc_response, status=status.HTTP_400_BAD_REQUEST)
+#             serializer.save()
+#             return Response({"status": "success"}, status=status.HTTP_200_OK)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 @api_view(['PUT'])
 def save_general_info_api(request):
@@ -132,7 +157,7 @@ def save_business_info_api(request):
 
 
 @api_view(['PUT'])
-def save_Settlement_InfoOther(request):
+def save_settlement_info(request):
     try:
         request_fields = ['account_holder_name', 'account_number','ifsc_code', 'bankId', 'account_type', 'branch', 'client_code', 'login_id']
         data = json.loads(request.body.decode("utf-8"))

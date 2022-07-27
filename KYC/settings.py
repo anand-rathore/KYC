@@ -80,23 +80,23 @@ WSGI_APPLICATION = 'KYC.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cob_live',
-        'USER': 'root',
-        'PASSWORD': 'darksmog',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
-    }
-
     # 'default': {
     #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'cobnew',
-    #     'USER': 'new_cob',
-    #     'PASSWORD': 'MuxqoFZs9TOteqBT',
-    #     'HOST': 'preprod-db-master-instance-1.cpontecd0mh6.ap-south-1.rds.amazonaws.com',
+    #     'NAME': 'cob1',
+    #     'USER': 'root',
+    #     'PASSWORD': 'root',
+    #     'HOST': '127.0.0.1',
     #     'PORT': '3306',
     # }
+
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'cobnew',
+        'USER': 'new_cob',
+        'PASSWORD': 'MuxqoFZs9TOteqBT',
+        'HOST': 'preprod-db-master-instance-1.cpontecd0mh6.ap-south-1.rds.amazonaws.com',
+        'PORT': '3306',
+    }
 }
 
 

@@ -10,7 +10,7 @@ class TempKyc(models.Model):
     designation = models.CharField(max_length=255, null=True, db_column='designation')
     business_type = models.IntegerField(null=True, db_column='business_type')
     business_category = models.IntegerField(null=True, db_column='business_category')
-    business_model = models.CharField(null=True, db_column='business_model')
+    business_model = models.CharField(max_length=255, null=True, db_column='business_model')
     billing_label = models.CharField(max_length=255, null=True, db_column='billing_label')
     is_erp_owner = models.BooleanField(default=False, db_column='is_erp_owner')
     platform = models.CharField(max_length=255, null=True, db_column='platform')

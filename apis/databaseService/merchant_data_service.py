@@ -96,14 +96,15 @@ def save_merchant_logo(logo, login_id, client_code):
         traceback.print_exc()
         return {"status": False, "message": "Error in saving file"}
 
+
 ########################################################################################################################
 
 
-
-def save_business_info(business_type, business_category, business_model, billing_label, company_website, erp_check, platform_id,
- collection_type_id, collection_frequency_id, expected_transactions, form_build, ticket_size, client_code, login_id):
-
-    get_merchant_data = merchant_data.objects.filter(loginMasterId = login_id, clientCode = client_code)
+def save_business_info(business_type, business_category, business_model, billing_label, company_website, erp_check,
+                       platform_id,
+                       collection_type_id, collection_frequency_id, expected_transactions, form_build, ticket_size,
+                       client_code, login_id):
+    get_merchant_data = merchant_data.objects.filter(loginMasterId=login_id, clientCode=client_code)
 
     if len(get_merchant_data) > 1:
         return {"status": False, "message": "More than one records found"}
@@ -131,30 +132,29 @@ def save_business_info(business_type, business_category, business_model, billing
     else:
         return {"status": False, "message": "Data not found"}
 
+
 ######################################################################################################################
 
-def saveSettlementInfoOther(account_holder_name, account_number, ifsc_code, bankId, account_type, branch, client_code, login_id):
-
-
-    get_merchant_data = merchant_data.objects.filter(loginMasterId = login_id, clientCode = client_code)
+def saveSettlementInfoOther(account_holder_name, account_number, ifsc_code, bankId, account_type, branch, client_code,
+                            login_id):
+    get_merchant_data = merchant_data.objects.filter(loginMasterId=login_id, clientCode=client_code)
     print(get_merchant_data)
     get_merchant_data = get_merchant_data[0]
 
     data = get_merchant_data.merchantId
 
-    get_client_data= client_account_details.objects.filter(merchantId = data)
+    get_client_data = client_account_details.objects.filter(merchantId=data)
 
     if len(get_client_data) > 1:
         return {"status": False, "message": "More than one records found"}
 
     if get_client_data:
-            get_client_data = get_client_data[0]
-            get_client_data.account_holder_name = account_holder_name
-            get_client_data.account_number = account_number
-            get_client_data.ifsc_code = ifsc_code
-            get_client_data.bankId = bankId
-            get_client_data.accountType = account_type
-            get_client_data.branch = branch
-            get_client_data.save()
-            return {"status": True, "message": "client data updated successfully"}
-
+        get_client_data = get_client_data[0]
+        get_client_data.account_holder_name = account_holder_name
+        get_client_data.account_number = account_number
+        get_client_data.ifsc_code = ifsc_code
+        get_client_data.bankId = bankId
+        get_client_data.accountType = account_type
+        get_client_data.branch = branch
+        get_client_data.save()
+        return {"status": True, "message": "client data updated successfully"}
