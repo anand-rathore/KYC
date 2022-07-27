@@ -1,3 +1,4 @@
+import traceback
 import json
 
 from django.shortcuts import get_object_or_404
@@ -8,6 +9,7 @@ from rest_framework.decorators import api_view
 from ..databaseModels.merchant_data import merchant_data
 # from ..databaseModels.temp_kyc import TempKyc
 from ..databaseService.merchant_data_service import save_general_Info, save_merchant_info, save_merchant_logo
+from ..databaseService.merchant_data_service import save_general_Info, save_merchant_info, save_business_info, save_settlement_info_other
 from apis.utils import Validator
 from apis.databaseService import merchant_document_service
 from ..databaseService.merchant_data_service import save_business_info, saveSettlementInfoOther
@@ -31,6 +33,7 @@ from ..databaseService.merchant_data_service import save_business_info, saveSett
 #             serializer.save()
 #             return Response({"status": "success"}, status=status.HTTP_200_OK)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
@@ -58,7 +61,6 @@ def save_general_info_api(request):
             "status"] else status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
-        import traceback
         message = traceback.format_exc()
         print(message)
         return Response({"message": "server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -109,21 +111,16 @@ def save_merchant_info_api(request):
                 "status"] else status.HTTP_400_BAD_REQUEST)
 
     except Exception as e:
-        import traceback
         message = traceback.format_exc()
         print(message)
         return Response({"message": "server error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
-
-
-###############################################################################################################
-
-
 @api_view(['PUT'])
 def save_business_info_api(request):
     try:
+
         request_fields = ['business_type', 'business_category', 'business_model', 'billing_label', 'company_website', 'erp_check', 'platform_id',
  'collection_type_id', 'collection_frequency_id', 'expected_transactions', 'form_build', 'ticket_size', 'client_code', 'login_id']
 
@@ -148,30 +145,34 @@ def save_business_info_api(request):
         login_id = data.get('login_id')
 
         data_business = save_business_info(business_type, business_category, business_model, billing_label, company_website, erp_check, platform_id,
+
+        request_fields = ['business_type', 'business_category', 'business_model', 'billing_label', 'company_website', 'erp_check', 'platform_id','collection_type_id', 'collection_frequency_id', 'expected_transactions', 'form_build', 'ticket_size', 'client_code', 'login_id']
+
+        validation_response = Validator.validate_request_data(request_fields, data)
+        if not validation_response["status"]:
+            return Response(validation_response, status=status.HTTP_400_BAD_REQUEST)
+
+        get_data_business_info = save_business_info(business_type, business_category, business_model, billing_label, company_website, erp_check, platform_id,
         collection_type_id, collection_frequency_id, expected_transactions, form_build, ticket_size, client_code, login_id)
-        if data_business:
-            return Response(data_business, status=status.HTTP_200_OK)
+
+        if get_data_business_info:
+            return Response(get_data_business_info, status= status.HTTP_200_OK if get_data_business_info["status"] else status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-            return Response({"message": "server error"},status=status.HTTP_400_BAD_REQUEST)
+        message = traceback.format_exc()
+        print(message)
+        return Response({"message": "server error"},status=status.HTTP_400_BAD_REQUEST)
 
 
 
 @api_view(['PUT'])
 def save_settlement_info(request):
     try:
-        request_fields = ['account_holder_name', 'account_number','ifsc_code', 'bankId', 'account_type', 'branch', 'client_code', 'login_id']
+
         data = json.loads(request.body.decode("utf-8"))
-
-        validation_response = Validator.validate_request_data(request_fields, data)
-        if not validation_response["status"]:
-            print("errrrrolorrrrr")
-            return Response(validation_response, status=status.HTTP_400_BAD_REQUEST)
-        print("A")
-
         account_holder_name = data.get('account_holder_name')
         account_number = data.get('account_number')
         ifsc_code = data.get('ifsc_code')
-        bankId = data.get('bankId')
+        bank_id = data.get('bank_id')
         account_type = data.get('account_type')
         branch = data.get('branch')
         client_code =data.get('client_code')
@@ -181,7 +182,18 @@ def save_settlement_info(request):
 
         if data_obj:
             return Response(data_obj, status=status.HTTP_200_OK)
+
+        request_fields = ['account_holder_name', 'account_number','ifsc_code', 'bank_id', 'account_type', 'branch', 'client_code', 'login_id']
+
+        validation_response = Validator.validate_request_data(request_fields, data)
+        if not validation_response["status"]:
+            return Response(validation_response, status=status.HTTP_400_BAD_REQUEST)
+
+        get_data_settlement_info=save_settlement_info_other(account_holder_name, account_number, ifsc_code, bank_id, account_type, branch, client_code, login_id)
+
+        return Response(get_data_settlement_info, status= status.HTTP_200_OK if get_data_settlement_info["status"] else status.HTTP_400_BAD_REQUEST)
     except Exception as e:
-        print(e)
+        message = traceback.format_exc()
+        print(message)
         return Response({"message": "server error"},status=status.HTTP_400_BAD_REQUEST)
 
