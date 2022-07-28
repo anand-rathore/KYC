@@ -1,17 +1,17 @@
 import traceback
 import json
 
-from django.shortcuts import get_object_or_404
+# from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from rest_framework import status, viewsets
+from rest_framework import status
 from rest_framework.decorators import api_view
 # from apis.Serializers.temp_kyc_serializer import KycSerializer
-from ..databaseModels.merchant_data import merchant_data
+# from ..databaseModels.merchant_data import merchant_data
 # from ..databaseModels.temp_kyc import TempKyc
 from ..databaseService.merchant_data_service import save_general_Info, save_merchant_info, save_merchant_logo
 from ..databaseService.merchant_data_service import save_general_Info, save_merchant_info, save_business_info, save_settlement_info_other
 from apis.utils import Validator
-from apis.databaseService import merchant_document_service
+# from apis.databaseService import merchant_document_service
 from ..databaseService.merchant_data_service import save_business_info
 
 
@@ -161,7 +161,7 @@ def save_business_info_api(request):
 
 
 @api_view(['PUT'])
-def save_settlement_info(request):
+def save_settlement_info_api(request):
     try:
 
         data = json.loads(request.body.decode("utf-8"))

@@ -5,6 +5,7 @@ from ..databaseModels.lookup_platform import platform
 from ..databaseModels.lookup_collection_frequency import collection_frequency
 from ..databaseModels.lookup_collection_type import collection_type
 from ..databaseModels.bank_master import bank_master_db
+from ..databaseModels.lookup_business_category import business_category
 
 
 
@@ -41,3 +42,9 @@ class bank_name_serializer(serializers.ModelSerializer):
     class Meta:
         model = bank_master_db
         fields = ('bankId', 'bankName')
+        
+
+class business_category_serializer(serializers.ModelSerializer):
+    class Meta:
+        model = business_category
+        fields = '__all__'
