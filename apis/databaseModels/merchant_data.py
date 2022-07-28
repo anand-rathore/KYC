@@ -65,7 +65,7 @@ class merchant_data(models.Model):
     businessCategory = models.CharField(max_length=250, null=True)
     businessModel = models.CharField(max_length=250, null=True)
     billingLabel = models.CharField(max_length=250, null=True)
-    erpCheck = models.CharField(max_length=250, null=True)
+    erpCheck = models.BooleanField(null=True)
     platformId = models.CharField(max_length=250, null=True)
     collectionTypeId = models.CharField(max_length=100, null=True)
     collectionFrequencyId = models.CharField(max_length=100, null=True, db_column='collectionFrequencyeId')
